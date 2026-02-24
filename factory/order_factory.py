@@ -7,6 +7,8 @@ class OrderFactory:
     @staticmethod
     def create_order(order_type, description, base_amount, **kwargs):
 
+        order_type = order_type.lower()
+
         if order_type == "lab":
             return LabOrder(description, base_amount, kwargs.get("lab_type"))
 
@@ -17,4 +19,4 @@ class OrderFactory:
             return ProcedureOrder(description, base_amount, kwargs.get("complexity_level"))
 
         else:
-            raise ValueError("Tipo de orden no válido")
+            raise ValueError(f"Tipo de orden '{order_type}' no válido.")
