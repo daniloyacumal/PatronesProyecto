@@ -1,19 +1,18 @@
-from config.database import DatabaseConnection
 from factory.order_factory import OrderFactory
 from strategies.eps_strategy import EPSStrategy
 from observers.patient_notifier import PatientNotifier
 from observers.pharmacy_notifier import PharmacyNotifier
 from observers.doctor_notifier import DoctorNotifier
 
-# Singleton
-db1 = DatabaseConnection()
-db2 = DatabaseConnection()
+# Crear orden de laboratorio
+order = OrderFactory.create_order(
+    order_type="lab",
+    description="Examen de sangre",
+    base_amount=100000,
+    lab_type="Hematología"
+)
 
-print(db1.get_connection())
-print(db1 is db2)  # True
-
-# Factory
-order = OrderFactory.create_order("lab", "Examen de sangre", 100000)
+print(order.get_details())
 
 # Strategy
 strategy = EPSStrategy()
