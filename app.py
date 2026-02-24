@@ -1,35 +1,41 @@
 from config.database import DatabaseConnection
 from factory.order_factory import OrderFactory
 from strategies.eps_strategy import EPSStrategy
+from strategies.private_strategy import PrivateStrategy
 from observers.patient_notifier import PatientNotifier
 from observers.pharmacy_notifier import PharmacyNotifier
 from observers.doctor_notifier import DoctorNotifier
 
-# Singleton
-db1 = DatabaseConnection()
-db2 = DatabaseConnection()
+def main():
 
-print(db1.get_connection())
-print(db1 is db2)  # True
+    # ===== Singleton =====
+    db1 = DatabaseConnection()
+    db2 = DatabaseConnection()
 
-# Factory: Crear orden de laboratorio
-order = OrderFactory.create_order(
-    order_type="lab",
-    description="Examen de sangre",
-    base_amount=100000,
-    lab_type="Hematología"
-)
+    print(db1.get_connection())
+    print("¿Misma instancia?:", db1 is db2)
 
-print(order.get_details())
+    # ===== Factory =====
+    order = OrderFactory.create_order(
+        order_type="lab",
+        description="Examen de sangre",
+        base_amount=100000,
+        lab_type="Hematología"
+    )
 
-# Strategy
-strategy = EPSStrategy()
-final_cost = strategy.calculate(order.base_amount)
-print("Costo final:", final_cost)
+    print(order.get_details())
 
-# Observer
-order.attach(PatientNotifier())
-order.attach(PharmacyNotifier())
-order.attach(DoctorNotifier())
+    # ===== Strategy =====
+    order.set_payment_strategy(EPSStrategy())
+    final_cost = order.calculate_final_cost()
+    print("Costo final:", final_cost)
 
-order.change_status("APROBADO")
+    # ===== Observer =====
+    order.attach(PatientNotifier())
+    order.attach(PharmacyNotifier())
+    order.attach(DoctorNotifier())
+
+    order.change_status("APROBADO")
+
+if __name__ == "__main__":
+    main()
