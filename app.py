@@ -24,4 +24,4 @@ order.attach(PatientNotifier())
 order.attach(PharmacyNotifier())
 order.attach(DoctorNotifier())
 
-order.change_status("APPROVED")
+order.change_status("APROBADO")
