@@ -4,7 +4,7 @@ class Order:
         self.description = description
         self.base_amount = base_amount
         self.observers = []
-        self.status = "CREATED"
+        self.status = "CREADO"
 
     def attach(self, observer):
         self.observers.append(observer)
