@@ -2,5 +2,5 @@ from .observer import Observer
 
 class DoctorNotifier(Observer):
 
-    def update(self, message):
-        print(f"Médico notificado: {message}")
+    def update(self, order):
+        print(f"[Médico] Orden '{order.description}' cambió a estado {order.status}")
